@@ -1,0 +1,97 @@
+PS D:\laragon\www\Node exercises\repos> cd fsv-back-end
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npm init -y
+Wrote to D:\laragon\www\Node exercises\repos\fsv-back-end\package.json:
+
+{
+  "name": "fsv-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npm i express
+
+added 58 packages, and audited 59 packages in 4s
+
+8 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npm i --save-dev @babel/core @babel/node @babel/preset-env @babel/cli @babel/plugin-transform-runtime
+
+added 273 packages, and audited 332 packages in 11s
+
+63 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npm install @babel/runtime
+
+up to date, audited 332 packages in 1s
+
+63 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS D:\laragon\www\Node exercises\repos\fsv-back-end>
+
+ after that create file .babelrc  with this inside:
+
+                     {
+                       "presets": ['@babel/preset-env'],
+                       "plugins": [
+                         [
+                           "@babel/plugin-transform-runtime",
+                           { "regenerator": true}
+                         ]
+                       ]
+                     }
+
+
+use this command to start the server
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npx babel-node src/server.js
+add this to your packaage json script and you can start the server using npm start :
+        "scripts": {
+            "start": "babel-node src/server.js"
+          },
+
+Server is listening on port 8000
+ and you can open in your browser the link  http://localhost:8000/hello
+
+Server is listening on port 8000
+
+
+if you don't want to start-restart the server each time, you can npm install nodemon
+PS D:\laragon\www\Node exercises\repos\fsv-back-end>  npm install --save-dev nodemon
+
+added 16 packages, and audited 350 packages in 2s
+
+64 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS D:\laragon\www\Node exercises\repos\fsv-back-end> npm start
+
+> fsv-back-end@1.0.0 start
+> npx nodemon --exec npx babel-node src/server.js
+
+[nodemon] 3.0.1
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `npx babel-node src/server.js`
+Server is listening on port 8000
+
+, add it to package.json
+ "scripts": {
+    "start": "npx nodemon --exec npx babel-node src/server.js"
+  },
+
+and use command npm start
