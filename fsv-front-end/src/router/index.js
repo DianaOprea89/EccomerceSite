@@ -19,17 +19,20 @@ const routes = [
   {
     path: '/users/:userId/cart',
     name: 'CartPage',
-    component: CartPage
+    component: CartPage,
+    props: true
   }
   ,
   {
-    path:'/products/:id',
-    name : 'ProductDetail',
-    component: ProductDetailPage
-  },
+    path: '/products/:productId',
+    name: 'ProductDetail',
+    component: ProductDetailPage,
+    props: true //
+  }
+  ,
   {
     path:'/',
-   redirect:'/products',
+    redirect:'/products',
     meta: { requiresAuth: true }
   },
   {
@@ -58,7 +61,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
 router.beforeEach((to, from, next) => {
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
@@ -70,7 +72,7 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.matched.some(record => record.meta.requiresGuest)) {
     if (loggedInUser) {
-      next('/register'); // Change this to the appropriate route
+      next('/register');
     } else {
       next();
     }
@@ -78,9 +80,9 @@ router.beforeEach((to, from, next) => {
     next();
   }
 
-  // Check if user is logged in and modify the path
   if (loggedInUser && to.path === '/') {
-    next(`/products/${loggedInUser.id}`); // Assuming you have the user's ID in the user object
+    next(`/products/${loggedInUser.id}`);
   }
 });
+
 export default router

@@ -16,7 +16,7 @@ const corsOptions = {
     optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
-let db; // We'll initialize this once and reuse it
+let db;
 
 // Connect to MongoDB once and use it across requests
 const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
@@ -55,45 +55,125 @@ MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopolog
     });
 
 app.use(bodyParser.json());
-app.use('/assets', express.static(path.join(__dirname, '../assets')));
-app.post('/api/token/refresh', async (req, res) => {
-    const { refreshToken } = req.body; // Getting refreshToken from request body
 
-    if (!refreshToken) {
-        return res.status(401).json({ message: 'Refresh token is required' });
+//app.use('/assets', express.static(path.join(__dirname, '../assets')));
+//app.use(express.static(path.join(__dirname, '../assets')))
+
+
+
+app.use((req, res, next) => {
+    console.log(`Request received: ${req.method} ${req.url}`);
+    next();
+});
+// Middleware to verify JWT token
+function authenticateToken(req, res, next) {
+    const token = req.header('Authorization');
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Forbidden' });
+        }
+        req.user = user;
+        next();
+    });
+}
+
+
+
+app.get('/api/protected', authenticateToken, (req, res) => {
+    res.json({ message: 'Protected route accessed' });
+});
+
+
+
+app.get('/api/products', async(req, res) => {
     try {
-        // Validate the existing refresh token
-        const decodedRefreshToken = jwt.verify(refreshToken, 'yourRefreshSecretKeyHere'); // Ideally, replace 'yourRefreshSecretKeyHere' with a secret stored in env variables
-
-        // If it's valid, generate a new access token
-        const newAccessToken = jwt.sign({ id: decodedRefreshToken.id }, 'yourSecretKeyHere', { expiresIn: '1h' }); // Ideally, replace 'yourSecretKeyHere' with a secret stored in env variables
-
-        // Send the new access token back to the client
-        res.status(200).json({ accessToken: newAccessToken });
-
+        const products = await db.collection('products').find({}).toArray();
+        res.status(200).json(products);
     } catch (error) {
-        res.status(401).json({ message: 'Invalid refresh token' });
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-app.get('/api/products', async (req, res) => {
-    const products = await db.collection('products').find({}).toArray();
-    res.status(200).json(products);
 
+
+
+app.post('/api/cart/add', async (req, res) => {
+    console.log("Received a request to add a product to the cart");
+    console.log("req.body",req.body)
+    const { email, password, productId } = req.body;
+
+    const user = await db.collection('users').findOne({ email });
+    if (!user) {
+        return res.status(404).json('Could not find user!');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.status(401).json('Unauthorized');
+    }
+
+    const product = await db.collection('products').findOne({ id: productId });
+
+    if (!product) {
+        return res.status(404).json('Could not find product!');
+    }
+
+    console.log("Product added to cart successfully");
+
+    if (!user.cartItems.includes(productId)) {
+
+        user.cartItems.push(productId);
+
+
+        await db.collection('users').updateOne({ id: user.id }, {
+            $set: { cartItems: user.cartItems },
+        });
+    }
+
+    const updatedUser = await db.collection('users').findOne({ id: user.id });
+
+    res.status(200).json(updatedUser.cartItems);
 });
 
-app.get('/api/users/:userId/cart', async (req, res) => {
-    console.log('Fetching cart for userId:', req.params.userId); // Access userId directly
-    const token = req.headers.authorization;
-    const { userId } = req.params;
-    const user = await db.collection('users').findOne({ id: userId });
-    if (!user) return res.status(404).json('Could not find user!');
 
-    const products = await db.collection('products').find({ id: { $in: user.cartItems }}).toArray();
-    res.status(200).json(products);
+
+
+app.get('/api/users/:userId/cart', async(req, res) => {
+    // res.status(200).json({'test':true});
+    // return;
+    try {
+        const userId = req.params.userId;
+        const user = await db.collection('users').findOne({ id: userId });
+
+        if (!user) {
+            return res.status(404).json('Could not find user with id: ' + userId);
+        }
+
+        const userCartItems = user.cartItems;
+        const productsInCart = [];
+
+        for (const productId of userCartItems) {
+            const product = await db.collection('products').findOne({ id: productId });
+
+            if (product) {
+                productsInCart.push(product);
+            }
+        }
+
+        res.status(200).json(productsInCart);
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
+
+
 
 app.get('/api/products/:productId', async (req, res) => {
     const { productId } = req.params;
@@ -106,35 +186,10 @@ app.get('/api/products/:productId', async (req, res) => {
 
 });
 
-app.post('/api/users/:userId/cart', async (req, res) => {
-    const token = req.headers.authorization;
-
-    try {
-        const decodedToken = jwt.verify(token, 'yourSecretKeyHere');
-        const userId = decodedToken.id;
-        console.log(userId)
-
-        const { productId } = req.body;
-
-        const user = await db.collection('users').findOne({ id: userId });
-
-        if (!user) {
-            return res.status(404).json('Could not find user!');
-        }
-
-        await db.collection('users').updateOne({ id: userId }, {
-            $addToSet: { cartItems: productId },
-        });
-
-        const products = await db.collection('products').find({ id: { $in: user.cartItems }}).toArray();
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(401).json('Unauthorized');
-    }
-});
 
 
-app.delete('/api/users/:userId/cart/:productId', async (req, res) => {
+
+app.delete('/api/users/:userId/cart/:productId',authenticateToken,  async (req, res) => {
     const { userId, productId } = req.params;
 
     const user = await db.collection('users').findOne({ id: userId });
@@ -163,13 +218,13 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ message: 'Passwords do not match' });
         }
 
-        // Check if user already exists based on the email address
+
         const existingUser = await db.collection('users').findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already registered' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10); // Directly using a number as salt rounds
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = {
             id,
@@ -179,16 +234,10 @@ app.post('/api/register', async (req, res) => {
             cartItems: []
         };
 
-        // Insert the new user into the database
         await db.collection('users').insertOne(newUser);
-
-        // Generate a JWT token for the user
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
-
 
         res.status(201).json({
             message: 'User registered successfully',
-            token,
             user: { name, email }
         });
 
@@ -198,35 +247,43 @@ app.post('/api/register', async (req, res) => {
     }
 
 });
+
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
+    console.log('Received login request with email:', email);
+
     const user = await db.collection('users').findOne({ email });
+    console.log('Found user:', user);
+
     if (!user) {
         return res.status(400).json({ message: 'Invalid email or password' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log('Password validation result:', isPasswordValid);
+
     if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Generate a JWT token for the user
-    const token = jwt.sign({ id: user.id }, 'yourSecretKeyHere', { expiresIn: '1h' });
 
-    // Return a success response along with user information (excluding password)
+    //const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+
     res.status(200).json({
         message: 'Login successful',
-        token,
         user: {
             name: user.name,
             email: user.email,
             cartItems: user.cartItems,
-            id:user.id
-        }
+            id: user.id
+        },
+        //token: token,
     });
 });
 
 
-app.listen(8004, () => {
-    console.log('Server is listening on port 8004');
+
+
+app.listen(8006, () => {
+    console.log('Server is listening on port 8006');
 });

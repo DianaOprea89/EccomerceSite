@@ -1,96 +1,133 @@
 <template>
-  <div id="page-wrap" v-if="product">
+  <div id="page-wrap">
     <div id="img-wrap">
-      <img :src="product.imageUrl">
+
+
+      <!-- <img :src="require(`../assets/${product.imageUrl}`).default"> -->
     </div>
     <div id="product-details">
-      <h1>{{product.name}}</h1>
-      <h3 id="price">$ {{product.price}}</h3>
-      <p>Average rating :{{product.averageRating}}</p>
+      <h1>{{ product ? product.name : 'Loading...' }}</h1>
+      <h3 id="price">$ {{ product ? product.price : 'Loading...' }}</h3>
+      <p v-if="product">Average rating: {{ product.averageRating }}</p>
+
+      <!-- Add to Cart Button -->
       <button
           class="add-to-cart"
-          v-if="!itemsIsInCart && !showSuccesMessage"
-          v-on:click="addToCart"
-      >Add to cart</button>
+          v-if="product && !itemsIsInCart && !showSuccessMessage"
+          @click="addToCart(product)"
+      >Add to Cart</button>
       <button
-
           class="green-button add-to-cart"
-          v-if="!itemsIsInCart &&  showSuccesMessage"
-      > Successfully added item to cart!</button>
+          v-if="product && !itemsIsInCart && showSuccessMessage"
+      >Successfully added item to cart!</button>
       <button
-
           class="grey-button add-to-cart"
-          v-if="itemsIsInCart"
-
+          v-if="product && itemsIsInCart"
       >Item is already in cart!</button>
-      <h4>Description</h4>
-      <p>{{product.description}}</p>
+
+      <!-- Product Description -->
+      <h4 v-if="product">Description</h4>
+      <p v-if="product">{{ product.description }}</p>
     </div>
   </div>
-  <not-found-page v-else></not-found-page>
 </template>
 
+
+
+
+
 <script>
+
 import api from "@/api/api";
-import NotFoundPage from "@/views/NotFoundPage";
 
 export default {
   name: "ProductDetailPage",
-  components: { NotFoundPage },
+  props: ['productId'],
   data() {
     return {
-      product: {},
-      cartItems: [],
-      showSuccesMessage: false,
-      productIsAdded: false,
+      product: null,
     };
   },
-  computed: {
-    itemsIsInCart() {
-      return this.cartItems.some(item => item.id === this.product.id);
-    },
-  },
+
   methods: {
-    async addToCart() {
-      const productId = this.$route.params.id;
-      const token = localStorage.getItem('token');
-      const loggedInUser = this.$store.getters.loggedInUser;
+    async addToCart(product) {
+      if (!this.isAuthenticated) {
+        console.error("User is not authenticated. Please log in.");
+        return;
+      }
 
       try {
-        await api.post(`/api/users/${loggedInUser.id}/cart`, { productId }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        console.log("Adding to cart:", product);
+        console.log("Product ID:", product.id);
+
+        const response = await api.post('/api/cart/add', {
+          email: this.user.email,
+          password: this.user.password,
+          productId: product.id
         });
-        console.log('Product added to cart successfully');
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          console.error('Unauthorized: Check token and user permissions');
+
+        console.log("API response:", response); // Log the API response
+
+        if (response.status === 200) {
+          console.log("Product added to cart successfully on the server");
+
+          this.showSuccessMessage = true;
+          this.itemsIsInCart = true;
+
+          setTimeout(() => {
+            this.showSuccessMessage = false;
+          }, 3000);
         } else {
-          console.error('Error adding product to cart:', error.response || error);
+          console.error("Failed to add to cart on the server");
         }
+      } catch (error) {
+        console.error("Failed to add to cart:", error);
+        this.showSuccessMessage = false;
+        this.itemsIsInCart = false;
       }
     },
-  },
-  async created() {
-    const { data: product } = await api.get(`/api/products/${this.$route.params.id}`);
-    this.product = product;
-
-    if (this.$store.getters.isAuthenticated) {
-      const loggedInUser = this.$store.getters.loggedInUser;
-      console.log('loggedInUser:', loggedInUser);
-
+    async fetchData() {
       try {
-        const { data: cartItems } = await api.get(`/api/users/${loggedInUser.id}/cart`);
-        this.cartItems = cartItems;
+        const productId = Number(this.$route.params.id);
+        console.log("Product ID from route:", productId);
+
+        const productResult = await api.get(`/api/products/${productId}`);
+        this.product = productResult.data;
+
+        // Log the retrieved product data
+        console.log("Product data:", this.product);
+
+        if (this.product.id === undefined) {
+          console.error("Product ID is undefined in the fetched data.");
+          return;
+        }
+
+        if (this.user && this.user.cartItems) {
+          this.itemsIsInCart = this.user.cartItems.includes(this.product.id);
+          console.log("Is in cart:", this.itemsIsInCart);
+        }
       } catch (error) {
-        console.error('Error fetching cart items:', error.message);
+        console.error("An error occurred while fetching data:", error);
       }
     }
+
   },
+  async created() {
+    //alert(this.$route.params.id);
+    // console.log("ProductDetailPage created hook");
+    try {
+      const result = await api.get('/api/products/' + this.productId);
+      console.log("Result:", result);
+      const apiResult = result.data;
+      this.product = apiResult;
+    } catch (error) {
+      console.error('An error occurred while fetching data:', error);
+    }
+  },
+
+
 };
 </script>
-
 
 <style scoped>
 #page-wrap {

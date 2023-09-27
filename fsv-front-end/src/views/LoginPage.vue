@@ -30,14 +30,16 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      email: "",
-      password: "",
+      email: "radu@mail.com",
+      password: "123456",
     };
   },
   methods: {
     async login() {
       try {
-        const response = await fetch("http://localhost:8004/api/login", {
+        console.log("Trying to login with", { email: this.email, password: this.password });
+
+        const response = await fetch("http://localhost:8006/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -48,28 +50,28 @@ export default {
           }),
         });
 
-        const data = await response.json();
+        console.log("Got response", response);
 
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to login");
+        if (response.ok) {
+          const data = await response.json();
+
+          console.log("Login data received", data);
+
+
+          // also save the just typed password on the user, to save it in the store for future authentification
+          data.user.password = this.password
+
+          this.$store.commit("setUser", data.user);
+          this.$router.push("/products/");
+        } else {
+          console.error("Failed to login");
         }
-
-        // Store user data and token in Vuex store and local storage
-        this.$store.commit('SET_USER', data.user);
-        localStorage.setItem('token', data.token); // Store the token
-
-        // Redirect to home page or dashboard after successful login
-        this.$router.push("/");
-
       } catch (error) {
-        console.error("Error logging in:", error.message);
+        console.error("Error logging in:", error);
       }
     },
 
-
-
-
-  goToRegister() {
+    goToRegister() {
       this.$router.push('/register');
     }
   },

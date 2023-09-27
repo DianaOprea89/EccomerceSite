@@ -21,17 +21,22 @@ export default {
     };
   },
   async created() {
-    const result = await api.get('/api/products');
-    const products = result.data;
-    this.products = products;
+    try {
+      const result = await api.get('/api/products');
+      console.log("Result:", result);
+      const products = result.data;
+      this.products = products;
+    } catch (error) {
+      console.error('An error occurred while fetching data:', error);
+    }
   },
   methods: {
     logout() {
-      // Remove user information from local storage
+
       localStorage.removeItem("user");
 
-      // Redirect the user to the login page or any other appropriate page
-      this.$router.push("/login"); // Redirect to the login page
+
+      this.$router.push("/login");
     },
 
   }

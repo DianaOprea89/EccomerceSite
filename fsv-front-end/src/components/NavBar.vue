@@ -15,13 +15,13 @@
       </router-link>
 
       <!-- If the user IS authenticated -->
-      <span v-if="isAuthenticated" class="user-span">Hello, {{ loggedInUser.name }}!</span>
+      <span v-if="isAuthenticated" class="user-span">Hello, {{ loggedInUser }}!</span>
       <button v-if="isAuthenticated" @click="logout">Logout</button>
 
       <router-link to="/products" id="nav-link">
         <button class="nav-item">Products</button>
       </router-link>
-      <router-link v-if="isAuthenticated" :to="`/users/${loggedInUser.id}/cart`" id="cart-link">
+      <router-link v-if="isAuthenticated" :to="`/users/${getUserId}/cart`" id="cart-link">
         <button>Cart!</button>
       </router-link>
     </div>
@@ -35,15 +35,28 @@ export default {
       return this.$store.getters.isAuthenticated;
     },
     loggedInUser() {
-      return this.$store.getters.loggedInUser;
+      return this.$store.getters.getName;
+    },
+    getUserId() {
+      return this.$store.getters.getUserId;
     }
+
   },
   methods: {
     logout() {
-      this.$store.commit('LOGOUT');
+      //@todo logout
       this.$router.push('/login');
+    },
+
+  },
+
+  created() {
+    if (this.$store.getters.isAuthenticated === false) {
+      this.$router.push("/login");
+
     }
   }
+
 };
 </script>
 <style scoped>

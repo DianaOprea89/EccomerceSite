@@ -39,7 +39,7 @@ export default {
     async register() {
       try {
         const generatedId = uuidv4();
-        const response = await fetch("http://localhost:8004/api/register", {
+        const response = await fetch("http://localhost:8006/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

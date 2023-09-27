@@ -1,6 +1,6 @@
 <template>
   <div id="page-wrap">
-    <h1>Shopping Cart</h1>
+    <h1>Shopping Cart {{userId}}</h1>
     <ProductsList
         :products="cartItems"
         v-on:remove-from-cart="removeFromCart($event)"
@@ -18,50 +18,79 @@ import ProductsList from "@/components/ProductsList";
 
 export default {
   name: "CartPage",
-  components: { ProductsList },
+  components: {ProductsList},
+  props: ['userId'],
   data() {
     return {
-      cartItems: [], // Initialize with an empty array
+      cartItems: [],
+      isLoading: false,
+      error: null,
     };
   },
   computed: {
     totalPrice() {
-      return this.cartItems.reduce(
-          (sum, item) => sum + Number(item.price),
-          0
-      );
+      if (!Array.isArray(this.cartItems)) {
+        return 0;
+      }
+
+      const total = this.cartItems.reduce((sum, item) => {
+        const price = Number(item.price);
+
+        if (!isNaN(price)) {
+          return sum + price;
+        } else {
+          console.warn(`Invalid price for item: ${item.name}`);
+          return sum;
+        }
+      }, 0);
+
+      return total;
     },
+    loggedInUser() {
+      return this.$store.getters.loggedInUser;
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    cartItemsAdded(){
+      return this.$store.getters.cartItems
+    }
   },
+
   created() {
     this.fetchData();
   },
   methods: {
     async removeFromCart(productId) {
+      this.isLoading = true;
       const userId = this.$store.getters.loggedInUser.id;
       try {
-        const response = await api.delete(
-            `/api/users/${userId}/cart/${productId}`
-        );
+        const response = await api.delete(`/api/users/${userId}/cart/${productId}`);
         this.cartItems = response.data;
       } catch (error) {
         console.error('Error removing item from cart:', error);
+        this.error = 'Failed to remove item from the cart.';
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchData() {
-      if (this.$store.getters.isAuthenticated) {
-        const userId = this.$store.getters.loggedInUser.id;
-        console.log('Fetching cart data for userId:', userId);
-        try {
-          const response = await api.get(`/api/users/${userId}/cart`);
-          console.log('Response data:', response.data);
-          this.cartItems = response.data; // Update cartItems with the fetched data
-        } catch (error) {
-          console.error('Error fetching cart items:', error);
-        }
+      this.isLoading = true;
+      try {
+
+        const userId = this.userId;
+        const response = await api.get(`/api/users/${userId}/cart`);
+        this.cartItems = response.data;
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+        this.error = 'Failed to fetch cart items.';
+      } finally {
+        this.isLoading = false;
       }
     },
-  },
-};
+
+  }
+}
 </script>
 
 <style scoped>
