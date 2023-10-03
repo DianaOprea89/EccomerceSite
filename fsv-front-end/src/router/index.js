@@ -61,18 +61,13 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
 router.beforeEach((to, from, next) => {
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!loggedInUser) {
       next('/login');
-    } else {
-      next();
-    }
-  } else if (to.matched.some(record => record.meta.requiresGuest)) {
-    if (loggedInUser) {
-      next('/register');
     } else {
       next();
     }
@@ -84,5 +79,6 @@ router.beforeEach((to, from, next) => {
     next(`/products/${loggedInUser.id}`);
   }
 });
+
 
 export default router

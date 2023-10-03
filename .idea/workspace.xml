@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" afterDir="false" />
-    </list>
+    <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,7 +104,7 @@
       <workItem from="1695290138728" duration="8746000" />
       <workItem from="1695713317514" duration="24671000" />
       <workItem from="1695814516834" duration="8844000" />
-      <workItem from="1696231929141" duration="9541000" />
+      <workItem from="1696231929141" duration="10403000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -160,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696321267032</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="changes">
+      <created>1696329407010</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1696329407010</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
