@@ -187,7 +187,7 @@ app.get('/api/products/:productId', async (req, res) => {
 
 
 
-app.delete('/api/users/:userId/cart/:productId',authenticateToken,  async (req, res) => {
+app.delete('/api/users/:userId/cart/:productId',  async (req, res) => {
     const { userId, productId } = req.params;
 
     const user = await db.collection('users').findOne({ id: userId });

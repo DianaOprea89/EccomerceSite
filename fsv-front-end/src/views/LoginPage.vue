@@ -30,8 +30,8 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      email: "radu@mail.com",
-      password: "123456",
+      email: "",
+      password: "",
     };
   },
   methods: {

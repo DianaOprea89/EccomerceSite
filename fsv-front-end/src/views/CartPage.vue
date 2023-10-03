@@ -62,9 +62,8 @@ export default {
   },
   methods: {
     async removeFromCart(productId) {
-      console.log("Event emitted:", productId); // Log the event
       this.isLoading = true;
-      const userId = this.$store.getters.loggedInUser.id;
+      const userId = this.userId; // Access userId from props
       try {
         const response = await api.delete(`/api/users/${userId}/cart/${productId}`);
         this.cartItems = response.data;
