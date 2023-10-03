@@ -6,23 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/.env" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-back-end/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/src/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/NavBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/LoginPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/RegisterPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/RegisterPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +110,8 @@
       <workItem from="1695194055779" duration="20839000" />
       <workItem from="1695290138728" duration="8746000" />
       <workItem from="1695713317514" duration="24671000" />
-      <workItem from="1695814516834" duration="8501000" />
+      <workItem from="1695814516834" duration="8844000" />
+      <workItem from="1696231929141" duration="7736000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -159,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693314368473</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="changes">
+      <created>1695836332211</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1695836332211</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,15 +181,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue</url>
-          <line>128</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/fsv-back-end/src/server.js</url>
-          <line>146</line>
-          <properties lambdaOrdinal="-1" />
+          <line>145</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

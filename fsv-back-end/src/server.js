@@ -104,8 +104,7 @@ app.get('/api/products', async(req, res) => {
 
 
 app.post('/api/cart/add', async (req, res) => {
-    console.log("Received a request to add a product to the cart");
-    console.log("req.body",req.body)
+
     const { email, password, productId } = req.body;
 
     const user = await db.collection('users').findOne({ email });
@@ -145,8 +144,7 @@ app.post('/api/cart/add', async (req, res) => {
 
 
 app.get('/api/users/:userId/cart', async(req, res) => {
-    // res.status(200).json({'test':true});
-    // return;
+
     try {
         const userId = req.params.userId;
         const user = await db.collection('users').findOne({ id: userId });

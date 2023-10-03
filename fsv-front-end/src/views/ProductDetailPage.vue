@@ -15,15 +15,18 @@
           class="add-to-cart"
           v-if="product && !itemsIsInCart && !showSuccessMessage"
           @click="addToCart(product)"
-      >Add to Cart</button>
+      >Add to Cart
+      </button>
       <button
           class="green-button add-to-cart"
           v-if="product && !itemsIsInCart && showSuccessMessage"
-      >Successfully added item to cart!</button>
+      >Successfully added item to cart!
+      </button>
       <button
           class="grey-button add-to-cart"
           v-if="product && itemsIsInCart"
-      >Item is already in cart!</button>
+      >Item is already in cart!
+      </button>
 
       <!-- Product Description -->
       <h4 v-if="product">Description</h4>
@@ -33,11 +36,8 @@
 </template>
 
 
-
-
-
 <script>
-
+import { mapState, mapGetters } from 'vuex';
 import api from "@/api/api";
 
 export default {
@@ -46,31 +46,35 @@ export default {
   data() {
     return {
       product: null,
+      email: "",
+      password: "",
+      showSuccessMessage: false,
+      itemsIsInCart: false
     };
   },
-
+  computed: {
+    ...mapState({
+      userEmail: 'email',
+      userPassword: 'password'
+    }),
+    ...mapGetters(['isAuthenticated'])
+  },
   methods: {
-    async addToCart(product) {
+    async addToCart() {
       if (!this.isAuthenticated) {
         console.error("User is not authenticated. Please log in.");
         return;
       }
 
       try {
-        console.log("Adding to cart:", product);
-        console.log("Product ID:", product.id);
-
         const response = await api.post('/api/cart/add', {
-          email: this.user.email,
-          password: this.user.password,
-          productId: product.id
+          email: this.userEmail,
+          password: this.userPassword,
+          productId: this.product.id,
         });
 
-        console.log("API response:", response); // Log the API response
-
         if (response.status === 200) {
-          console.log("Product added to cart successfully on the server");
-
+          this.$store.dispatch('updateCart', response.data);
           this.showSuccessMessage = true;
           this.itemsIsInCart = true;
 
@@ -82,19 +86,24 @@ export default {
         }
       } catch (error) {
         console.error("Failed to add to cart:", error);
+        if (error.response && error.response.data) {
+          console.error("Error details:", error.response.data);
+        }
         this.showSuccessMessage = false;
         this.itemsIsInCart = false;
       }
-    },
+    }
+    ,
     async fetchData() {
       try {
+
         const productId = Number(this.$route.params.id);
         console.log("Product ID from route:", productId);
 
         const productResult = await api.get(`/api/products/${productId}`);
         this.product = productResult.data;
 
-        // Log the retrieved product data
+
         console.log("Product data:", this.product);
 
         if (this.product.id === undefined) {
@@ -102,8 +111,8 @@ export default {
           return;
         }
 
-        if (this.user && this.user.cartItems) {
-          this.itemsIsInCart = this.user.cartItems.includes(this.product.id);
+        if (this.user && this.cartItems) {
+          this.itemsIsInCart = this.cartItems.includes(this.product.id);
           console.log("Is in cart:", this.itemsIsInCart);
         }
       } catch (error) {
@@ -113,8 +122,6 @@ export default {
 
   },
   async created() {
-    //alert(this.$route.params.id);
-    // console.log("ProductDetailPage created hook");
     try {
       const result = await api.get('/api/products/' + this.productId);
       console.log("Result:", result);
@@ -158,10 +165,12 @@ img {
   top: 24px;
   right: 16px;
 }
-.green-button{
-background-color: green
+
+.green-button {
+  background-color: green
 }
-.grey-button{
+
+.grey-button {
   background-color: gray;
 }
 </style>

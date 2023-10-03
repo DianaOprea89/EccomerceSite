@@ -58,7 +58,7 @@ export default {
           console.log("Login data received", data);
 
 
-          // also save the just typed password on the user, to save it in the store for future authentification
+
           data.user.password = this.password
 
           this.$store.commit("setUser", data.user);

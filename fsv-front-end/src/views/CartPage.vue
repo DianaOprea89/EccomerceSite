@@ -1,10 +1,11 @@
 <template>
   <div id="page-wrap">
-    <h1>Shopping Cart {{userId}}</h1>
+    <h1>Shopping Cart </h1>
     <ProductsList
         :products="cartItems"
         v-on:remove-from-cart="removeFromCart($event)"
     ></ProductsList>
+
     <div>
       <h3 id="total-price">Total: ${{ totalPrice }}</h3>
       <button id="checkout-button">Proceed to Checkout</button>
@@ -27,6 +28,14 @@ export default {
       error: null,
     };
   },
+  watch: {
+    '$store.state.cart': {
+      handler() {
+        this.fetchData();
+      },
+      deep: true,
+    },
+  },
   computed: {
     totalPrice() {
       if (!Array.isArray(this.cartItems)) {
@@ -46,22 +55,14 @@ export default {
 
       return total;
     },
-    loggedInUser() {
-      return this.$store.getters.loggedInUser;
-    },
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
-    cartItemsAdded(){
-      return this.$store.getters.cartItems
-    }
-  },
 
+  },
   created() {
     this.fetchData();
   },
   methods: {
     async removeFromCart(productId) {
+      console.log("Event emitted:", productId); // Log the event
       this.isLoading = true;
       const userId = this.$store.getters.loggedInUser.id;
       try {
@@ -74,6 +75,7 @@ export default {
         this.isLoading = false;
       }
     },
+
     async fetchData() {
       this.isLoading = true;
       try {
