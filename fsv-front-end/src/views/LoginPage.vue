@@ -7,10 +7,10 @@
       <label for ="email" >Email:  </label>
       <input v-model="email" type="email" name="email" id="email" placeholder="email">
     </div>
-   <div class="input-elements">
-     <label for ="password" >Password:  </label>
-     <input v-model="password"  type="password" name="password" id="password" placeholder="password">
-   </div>
+    <div class="input-elements">
+      <label for ="password" >Password:  </label>
+      <input v-model="password"  type="password" name="password" id="password" placeholder="password">
+    </div>
     <div class="centered-content">
       <button @click="login"> Login </button>
     </div>
@@ -62,6 +62,10 @@ export default {
           data.user.password = this.password
 
           this.$store.commit("setUser", data.user);
+
+          localStorage.setItem('userEmail', this.email);
+          localStorage.setItem('userPassword', this.password);  // PLEASE NOTE: This is not safe.
+
           this.$router.push("/products/");
         } else {
           console.error("Failed to login");
@@ -189,7 +193,6 @@ h1:after {
 }
 
 </style>
-
 
 
 

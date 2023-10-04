@@ -54,10 +54,10 @@ export default {
   },
   computed: {
     ...mapState({
-      userEmail: 'email',
-      userPassword: 'password'
+      userEmail: 'user.email',
+      userPassword: 'user.password'
     }),
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated', 'getName', 'getUserId'])
   },
   methods: {
     async addToCart() {
@@ -65,11 +65,13 @@ export default {
         console.error("User is not authenticated. Please log in.");
         return;
       }
+      const email = this.userEmail || localStorage.getItem('userEmail');
+      const password = this.userPassword || localStorage.getItem('userPassword');
 
       try {
         const response = await api.post('/api/cart/add', {
-          email: this.userEmail,
-          password: this.userPassword,
+          email: email,
+          password: password,
           productId: this.product.id,
         });
 
@@ -96,31 +98,23 @@ export default {
     ,
     async fetchData() {
       try {
-
         const productId = Number(this.$route.params.id);
-        console.log("Product ID from route:", productId);
-
         const productResult = await api.get(`/api/products/${productId}`);
         this.product = productResult.data;
 
 
-        console.log("Product data:", this.product);
+        const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
+        const userCartItems = userCartResult.data.map(item => item.id);
 
-        if (this.product.id === undefined) {
-          console.error("Product ID is undefined in the fetched data.");
-          return;
-        }
 
-        if (this.user && this.cartItems) {
-          this.itemsIsInCart = this.cartItems.includes(this.product.id);
-          console.log("Is in cart:", this.itemsIsInCart);
-        }
+        this.itemsIsInCart = userCartItems.includes(this.product.id);
+
       } catch (error) {
         console.error("An error occurred while fetching data:", error);
       }
     }
-
-  },
+  }
+    ,
   async created() {
     try {
       const result = await api.get('/api/products/' + this.productId);

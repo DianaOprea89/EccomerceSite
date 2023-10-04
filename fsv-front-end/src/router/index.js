@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import ProductDetailPage from '@/views/ProductDetailPage';
 import CartPage from '@/views/CartPage';
 import ProductsPage from '@/views/ProductsPage';
@@ -7,54 +7,49 @@ import NotFoundPage from '@/views/NotFoundPage';
 import loginPage from "@/views/LoginPage";
 import registerPage from "@/views/RegisterPage";
 
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path:'/products',
-    name : 'Products',
-    component: ProductsPage
+    path: '/products',
+    name: 'Products',
+    component: ProductsPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/users/:userId/cart',
     name: 'CartPage',
     component: CartPage,
-    props: true
-  }
-  ,
+    props: true,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/products/:productId',
     name: 'ProductDetail',
     component: ProductDetailPage,
-    props: true //
-  }
-  ,
-  {
-    path:'/',
-    redirect:'/products',
+    props: true,
     meta: { requiresAuth: true }
   },
   {
-    path:'*',
+    path: '/',
+    redirect: '/products',
+  },
+  {
+    path: '*',
     name: 'NotFoundPage',
     component: NotFoundPage
   },
   {
-    path:'/login',
-    name : 'Login',
+    path: '/login',
+    name: 'Login',
     component: loginPage
   },
-
   {
     path: '/register',
     name: "Register",
-    component: registerPage,
-    meta: { requiresGuest: true }
+    component: registerPage
   }
-
-
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
@@ -63,10 +58,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const userEmail = localStorage.getItem('userEmail');
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!loggedInUser) {
+    if (!userEmail) {
       next('/login');
     } else {
       next();
@@ -74,11 +69,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-
-  if (loggedInUser && to.path === '/') {
-    next(`/products/${loggedInUser.id}`);
-  }
 });
 
-
-export default router
+export default router;

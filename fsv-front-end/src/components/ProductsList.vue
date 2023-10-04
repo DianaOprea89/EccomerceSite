@@ -21,7 +21,7 @@ export default {
   props: ['products'],
   methods: {
     removeFromCart(productId) {
-      // Emit the event with the product ID to notify the parent component
+
       this.$emit('remove-from-cart', productId);
     },
   },
