@@ -24,7 +24,10 @@ export default new Vuex.Store({
         },
         UPDATE_CART(state, payload) {
             state.user.cartItems = payload;
-        }
+        },
+        clearUserData(state) {
+            state.user = null;
+        },
     },
     getters: {
         isAuthenticated: state => {

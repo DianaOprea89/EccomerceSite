@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
   computed: {
     isAuthenticated() {
@@ -44,10 +45,16 @@ export default {
   },
   methods: {
     logout() {
-      //@todo logout
-      this.$router.push('/login');
-    },
+      this.$store.commit('clearUserData');
+      this.$store.commit('clearCartData');
 
+      // Remove any user-related data from local storage.
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userPassword'); // Again, note that storing password in local storage is not safe. Use tokens if possible.
+
+      // Redirect the user to the login page or main page.
+      this.$router.push('/login').then(() => this.$router.go());
+    }
   },
 
   created() {

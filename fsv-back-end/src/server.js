@@ -84,9 +84,12 @@ function authenticateToken(req, res, next) {
 
 
 
+
 app.get('/api/protected', authenticateToken, (req, res) => {
     res.json({ message: 'Protected route accessed' });
 });
+
+
 
 
 
@@ -99,6 +102,9 @@ app.get('/api/products', async(req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
+
 
 app.post('/api/userData', async (req, res) => {
     const { email, password } = req.body;
@@ -122,6 +128,8 @@ app.post('/api/userData', async (req, res) => {
         cartItems: user.cartItems
     });
 });
+
+
 
 
 
@@ -165,6 +173,8 @@ app.post('/api/cart/add', async (req, res) => {
 
 
 
+
+
 app.get('/api/users/:userId/cart', async(req, res) => {
 
     try {
@@ -192,6 +202,8 @@ app.get('/api/users/:userId/cart', async(req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
 
 
 
@@ -225,6 +237,9 @@ app.delete('/api/users/:userId/cart/:productId',  async (req, res) => {
     const products = await db.collection('products').find({ id: { $in: user.cartItems }}).toArray();
     res.status(200).json(products);
 });
+
+
+
 
 app.post('/api/register', async (req, res) => {
     try {
@@ -285,10 +300,6 @@ app.post('/api/login', async (req, res) => {
     if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid email or password' });
     }
-
-
-    //const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
-
     res.status(200).json({
         message: 'Login successful',
         user: {
@@ -297,7 +308,7 @@ app.post('/api/login', async (req, res) => {
             cartItems: user.cartItems,
             id: user.id
         },
-        //token: token,
+
     });
 });
 
