@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <div>
-      <!-- If the user is NOT authenticated -->
+
       <router-link v-if="!isAuthenticated" to="/login" id="log-link">
         <button class="nav-item">Login</button>
       </router-link>
@@ -14,7 +14,7 @@
         <button class="nav-item">Register</button>
       </router-link>
 
-      <!-- If the user IS authenticated -->
+
       <span v-if="isAuthenticated" class="user-span">Hello, {{ loggedInUser }}!</span>
       <button v-if="isAuthenticated" @click="logout">Logout</button>
 
@@ -48,11 +48,11 @@ export default {
       this.$store.commit('clearUserData');
       this.$store.commit('clearCartData');
 
-      // Remove any user-related data from local storage.
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userPassword'); // Again, note that storing password in local storage is not safe. Use tokens if possible.
 
-      // Redirect the user to the login page or main page.
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userPassword');
+
+
       this.$router.push('/login').then(() => this.$router.go());
     }
   },
@@ -93,17 +93,17 @@ button:hover {
   background-color: #6a6a6a;
 }
 
-/* User Span styling */
+
 .user-span {
   font-weight: 700;
-  color: #4a4a4a; /* matches the button color for a cohesive look */
+  color: #4a4a4a;
   margin-right: 10px;
-  font-size: 18px; /* increased font size */
-  line-height: 40px; /* matches the button's line height */
+  font-size: 18px;
+  line-height: 40px;
 
 }
 
-/* Nav bar styling */
+
 #nav-bar {
   display: flex;
   justify-content: space-between;

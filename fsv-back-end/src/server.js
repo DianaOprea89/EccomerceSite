@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const app = express();
 const corsOptions = {
-    origin: 'http://localhost:8080', // Replace with your frontend's URL
+    origin: 'http://localhost:8080',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
@@ -18,7 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 let db;
 
-// Connect to MongoDB once and use it across requests
+
 const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
 console.log(`Connecting to: ${connectionString}`);
 MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -56,8 +56,8 @@ MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopolog
 
 app.use(bodyParser.json());
 
-//app.use('/assets', express.static(path.join(__dirname, '../assets')));
-//app.use(express.static(path.join(__dirname, '../assets')))
+// app.use('/assets', express.static(path.join(__dirname, '../assets')));
+// app.use(express.static(path.join(__dirname, '../assets')))
 
 
 

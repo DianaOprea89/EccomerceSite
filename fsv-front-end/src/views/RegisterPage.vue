@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from 'uuid'; // Import the v4 method to generate a UUID
+import { v4 as uuidv4 } from 'uuid';
 export default {
   name: "RegisterPage",
   data() {
@@ -65,7 +65,7 @@ export default {
 
         this.$router.push({
           name: 'CartPage',
-          params: { userId: generatedId }, // Pass the user ID as a parameter
+          params: { userId: generatedId },
         });
 
 

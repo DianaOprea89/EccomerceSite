@@ -31,12 +31,12 @@ export default new Vuex.Store({
     },
     getters: {
         isAuthenticated: state => {
-            return !!state.user.email;  // Using the double NOT (!!) operator to convert truthy/falsy to boolean.
+            return !!state.user.email;
         },
         getName: state => state.user.name,
         getUserId: state => state.user.id,
         userEmail: state => state.user.email,
-        userPassword: state => state.user.password  // Not recommended
+        userPassword: state => state.user.password
     },
     actions: {
         updateCart({ commit }, updatedCartData) {

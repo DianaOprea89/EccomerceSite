@@ -63,7 +63,7 @@ export default {
   methods: {
     async removeFromCart(productId) {
       this.isLoading = true;
-      const userId = this.userId; // Access userId from props
+      const userId = this.userId;
       try {
         const response = await api.delete(`/api/users/${userId}/cart/${productId}`);
         this.cartItems = response.data;
