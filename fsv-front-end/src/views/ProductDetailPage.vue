@@ -9,22 +9,27 @@
       <h3 id="price">$ {{ product ? product.price : 'Loading...' }}</h3>
       <p v-if="product">Average rating: {{ product.averageRating }}</p>
 
-      <!-- Add to Cart Button -->
+
       <button
           class="add-to-cart"
-          v-if="product && !itemsIsInCart && !showSuccessMessage"
+          v-if="product && !itemsIsInCart"
           @click="addToCart(product)"
-      >Add to Cart
+      >
+        Add to Cart
       </button>
       <button
           class="green-button add-to-cart"
-          v-if="product && !itemsIsInCart && showSuccessMessage"
-      >Successfully added item to cart!
+          v-if="product && showSuccessMessage"
+          disabled
+      >
+        Successfully added item to cart!
       </button>
       <button
           class="grey-button add-to-cart"
-          v-if="product && itemsIsInCart"
-      >Item is already in cart!
+          v-if="product && itemsIsInCart && !showSuccessMessage"
+          disabled
+      >
+        Item is already in cart!
       </button>
 
 
@@ -50,7 +55,8 @@ export default {
       email: "",
       password: "",
       showSuccessMessage: false,
-      itemsIsInCart: false
+      userCartItems: [],
+      isLoading: true,
     };
   },
   computed: {
@@ -58,7 +64,10 @@ export default {
       userEmail: 'user.email',
       userPassword: 'user.password'
     }),
-    ...mapGetters(['isAuthenticated', 'getName', 'getUserId'])
+    ...mapGetters(['isAuthenticated', 'getName', 'getUserId']),
+    itemsIsInCart() {
+      return this.userCartItems.includes(this.product.id);
+    }
   },
   methods: {
     async addToCart() {
@@ -79,7 +88,7 @@ export default {
         if (response.status === 200) {
           this.$store.dispatch('updateCart', response.data);
           this.showSuccessMessage = true;
-          this.itemsIsInCart = true;
+          this.userCartItems.push(this.product.id); // Update local cart items
 
           setTimeout(() => {
             this.showSuccessMessage = false;
@@ -93,43 +102,43 @@ export default {
           console.error("Error details:", error.response.data);
         }
         this.showSuccessMessage = false;
-        this.itemsIsInCart = false;
       }
-    }
-    ,
-    async fetchData() {
-      try {
-        const productId = Number(this.$route.params.id);
-        const productResult = await api.get(`/api/products/${productId}`);
-        this.product = productResult.data;
-
-
-        const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
-        const userCartItems = userCartResult.data.map(item => item.id);
-
-
-        this.itemsIsInCart = userCartItems.includes(this.product.id);
-
-      } catch (error) {
-        console.error("An error occurred while fetching data:", error);
-      }
-    }
-  }
-    ,
+    },
+    // async fetchData() {
+    //   try {
+    //     const productId = Number(this.$route.params.id);
+    //     const productResult = await api.get(`/api/products/${productId}`);
+    //     this.product = productResult.data;
+    //
+    //     const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
+    //     this.userCartItems = userCartResult.data.map(item => item.id);
+    //     this.isLoading = false;
+    //   } catch (error) {
+    //     console.error("An error occurred while fetching data:", error);
+    //   }
+    // }
+  },
   async created() {
     try {
+      // Fetch the product details
+      const productId = Number(this.productId || this.$route.params.id);
+      const productResult = await api.get(`/api/products/${productId}`);
+      this.product = productResult.data;
 
-      const result = await api.get('/api/products/' + this.productId);
+      // Fetch the user's cart items
+      const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
+      this.userCartItems = userCartResult.data.map(item => item.id);
 
-      const apiResult = result.data;
-      this.product = apiResult;
+      // Set loading to false after fetching all data
+      this.isLoading = false;
     } catch (error) {
       console.error('An error occurred while fetching data:', error);
     }
-  },
+  }
+}
 
 
-};
+
 </script>
 
 <style scoped>

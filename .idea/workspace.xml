@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/src/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/node_modules/.cache/eslint/ffcb169c.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/node_modules/.cache/eslint/ffcb169c.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,7 +107,7 @@
       <workItem from="1695290138728" duration="8746000" />
       <workItem from="1695713317514" duration="24671000" />
       <workItem from="1695814516834" duration="8844000" />
-      <workItem from="1696231929141" duration="22846000" />
+      <workItem from="1696231929141" duration="25598000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -200,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696580080670</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="changes">
+      <created>1696588013954</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1696588013954</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
