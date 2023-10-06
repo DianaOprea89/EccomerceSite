@@ -56,16 +56,14 @@ MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopolog
 
 app.use(bodyParser.json());
 
-// app.use('/assets', express.static(path.join(__dirname, '../assets')));
-// app.use(express.static(path.join(__dirname, '../assets')))
-
-
+app.use(express.static(path.join(__dirname, '../assets')))
 
 app.use((req, res, next) => {
     console.log(`Request received: ${req.method} ${req.url}`);
     next();
 });
-// Middleware to verify JWT token
+
+
 function authenticateToken(req, res, next) {
     const token = req.header('Authorization');
 

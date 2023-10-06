@@ -1,9 +1,8 @@
 <template>
   <div id="page-wrap">
     <div id="img-wrap">
+      <img v-if="product" :src="product.imageUrl">
 
-
-      <!-- <img :src="require(`../assets/${product.imageUrl}`).default"> -->
     </div>
     <div id="product-details">
       <h1>{{ product ? product.name : 'Loading...' }}</h1>
@@ -28,7 +27,7 @@
       >Item is already in cart!
       </button>
 
-      <!-- Product Description -->
+
       <h4 v-if="product">Description</h4>
       <p v-if="product">{{ product.description }}</p>
     </div>
@@ -45,7 +44,9 @@ export default {
   props: ['productId'],
   data() {
     return {
-      product: null,
+      product: {
+        imageUrl: '',
+      },
       email: "",
       password: "",
       showSuccessMessage: false,
@@ -117,8 +118,9 @@ export default {
     ,
   async created() {
     try {
+
       const result = await api.get('/api/products/' + this.productId);
-      console.log("Result:", result);
+
       const apiResult = result.data;
       this.product = apiResult;
     } catch (error) {

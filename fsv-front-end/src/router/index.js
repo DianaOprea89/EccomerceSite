@@ -14,6 +14,7 @@ const routes = [
     path: '/products',
     name: 'Products',
     component: ProductsPage,
+    props: true,
     meta: { requiresAuth: true }
   },
   {
