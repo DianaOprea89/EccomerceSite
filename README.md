@@ -1,3 +1,3 @@
 # EccomerceSite
 This is an eCommerce site I did from scratch after seeing 2 video trainings separately, one from Udemy, The Complete Nodejs MySQL Login System, and one from YouTube Creating and Hosting a Full-Stack E-Commerce Site | Vue JS, NodeJS, MongoDB, Postman, Express server
-
+So on this eCommerce site,  you can register a user, on the register component, and after that login based on the user and password that you used when you registered. The information is saved in the database created using MongoDB,  and the products in the cart are added based on the user ID that is logged in  and the productID, if the product is already added to the cart the button with add to cart will become disabled. The message "Item is already in the cart!" will appear, this check is done against the database created in MongoDB
