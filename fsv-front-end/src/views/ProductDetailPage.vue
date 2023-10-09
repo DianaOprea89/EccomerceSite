@@ -104,32 +104,19 @@ export default {
         this.showSuccessMessage = false;
       }
     },
-    // async fetchData() {
-    //   try {
-    //     const productId = Number(this.$route.params.id);
-    //     const productResult = await api.get(`/api/products/${productId}`);
-    //     this.product = productResult.data;
-    //
-    //     const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
-    //     this.userCartItems = userCartResult.data.map(item => item.id);
-    //     this.isLoading = false;
-    //   } catch (error) {
-    //     console.error("An error occurred while fetching data:", error);
-    //   }
-    // }
   },
   async created() {
     try {
-      // Fetch the product details
+
       const productId = Number(this.productId || this.$route.params.id);
       const productResult = await api.get(`/api/products/${productId}`);
       this.product = productResult.data;
 
-      // Fetch the user's cart items
+
       const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
       this.userCartItems = userCartResult.data.map(item => item.id);
 
-      // Set loading to false after fetching all data
+
       this.isLoading = false;
     } catch (error) {
       console.error('An error occurred while fetching data:', error);
