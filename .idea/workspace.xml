@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/fsv-front-end/src/cartUtils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +112,8 @@
       <workItem from="1695290138728" duration="8746000" />
       <workItem from="1695713317514" duration="24671000" />
       <workItem from="1695814516834" duration="8844000" />
-      <workItem from="1696231929141" duration="25598000" />
+      <workItem from="1696231929141" duration="26919000" />
+      <workItem from="1696832440786" duration="33195000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -200,7 +206,21 @@
       <option name="project" value="LOCAL" />
       <updated>1696588013954</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="changes">
+      <created>1696591121992</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1696591121992</updated>
+    </task>
+    <task id="LOCAL-00015" summary="changes">
+      <created>1696833864559</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1696833864559</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

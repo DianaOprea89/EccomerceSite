@@ -12,7 +12,7 @@
 
       <button
           class="add-to-cart"
-          v-if="product && !itemsIsInCart"
+          v-if="product "
           @click="addToCart(product)"
       >
         Add to Cart
@@ -24,25 +24,19 @@
       >
         Successfully added item to cart!
       </button>
-      <button
-          class="grey-button add-to-cart"
-          v-if="product && itemsIsInCart && !showSuccessMessage"
-          disabled
-      >
-        Item is already in cart!
-      </button>
-
-
       <h4 v-if="product">Description</h4>
       <p v-if="product">{{ product.description }}</p>
     </div>
   </div>
 </template>
 
-
 <script>
 import { mapState, mapGetters } from 'vuex';
 import api from "@/api/api";
+import { calculateTotalPrice } from "@/cartUtils.js";
+
+
+
 
 export default {
   name: "ProductDetailPage",
@@ -57,20 +51,29 @@ export default {
       showSuccessMessage: false,
       userCartItems: [],
       isLoading: true,
+      cartTotal: 0,
     };
   },
   computed: {
     ...mapState({
       userEmail: 'user.email',
-      userPassword: 'user.password'
+      userPassword: 'user.password',
     }),
-    ...mapGetters(['isAuthenticated', 'getName', 'getUserId']),
+    ...mapGetters(['isAuthenticated', 'getName', 'getUserId','cartItems']),
     itemsIsInCart() {
       return this.userCartItems.includes(this.product.id);
-    }
+    },
+  },
+  watch: {
+    cartItems: {
+      handler(newCartItems) {
+        this.cartTotal = calculateTotalPrice(newCartItems);
+      },
+      deep: true,
+    },
   },
   methods: {
-    async addToCart() {
+    async addToCart(product) {
       if (!this.isAuthenticated) {
         console.error("User is not authenticated. Please log in.");
         return;
@@ -86,9 +89,17 @@ export default {
         });
 
         if (response.status === 200) {
-          this.$store.dispatch('updateCart', response.data);
+          const newItem = {
+            count: 1, // You can modify this as needed
+            id: product.id,
+            price: product.price,
+            name: product.name
+          }
+          this.$store.commit('UPDATE_CART', newItem); // Commit the mutation
+          const cartArray = Object.values(this.cartItems); // Use this.cartItems
+          localStorage.setItem('cartItems', JSON.stringify(cartArray));
           this.showSuccessMessage = true;
-          this.userCartItems.push(this.product.id); // Update local cart items
+          this.userCartItems.push(product.id);
 
           setTimeout(() => {
             this.showSuccessMessage = false;
@@ -112,10 +123,20 @@ export default {
       const productResult = await api.get(`/api/products/${productId}`);
       this.product = productResult.data;
 
+      const storedCartItems = localStorage.getItem('cartItems');
+      console.log('Stored Cart Items:', storedCartItems);
+      if (storedCartItems) {
+        let cartArray = JSON.parse(storedCartItems);
 
-      const userCartResult = await api.get(`/api/users/${this.getUserId}/cart`);
-      this.userCartItems = userCartResult.data.map(item => item.id);
+        if (!Array.isArray(cartArray)) {
+          // If it's not an array, convert it to an array
+          cartArray = Object.values(cartArray);
+        }
 
+        // Now you can use map safely
+        this.$store.commit('UPDATE_CART', cartArray);
+        this.userCartItems = cartArray.map(item => item.id);
+      }
 
       this.isLoading = false;
     } catch (error) {
