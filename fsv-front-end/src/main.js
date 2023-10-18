@@ -11,7 +11,6 @@ new Vue({
   router,
   store,
   created() {
-    this.$store.dispatch('loadProducts');
     this.$store.dispatch('loadUserData');
 
   },

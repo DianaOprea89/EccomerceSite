@@ -4,19 +4,18 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
+      :user-id="userId"
   ></products-grid-item>
 </div>
 </template>
-
 <script>
 import ProductsGridItem from "@/components/ProductsGridItem";
 export default {
   name: "ProductsGrid",
   components: {ProductsGridItem},
-  props:['products']
+ props:['products','userId']
 }
 </script>
-
 <style scoped>
 .grid-wrap {
   display: flex;

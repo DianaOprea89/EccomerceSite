@@ -1,11 +1,16 @@
 <template>
   <div class="product-item">
     <img :src="product.imageUrl">
-    <h3 class="product-name"> {{ product.name }} </h3>
-    <p class="product-price">$ {{product.price}}</p>
-    <router-link :to="'/products/'+ product.id">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-price">$ {{ product.price }}</p>
+    <!-- Concatenate productId and userId to the route path -->
+    <!-- Inside ProductsGridItem.vue template -->
+    <router-link :to="'/products/' + product.id + '/' + userId" @click="logRoute">
       <button>View Details</button>
     </router-link>
+
+
+
 
   </div>
 </template>
@@ -13,9 +18,17 @@
 <script>
 export default {
   name: "ProductsGridItem",
-  props: ['product']
-}
+  props: ["product", "userId"],
+  methods: {
+    logRoute() {
+      console.log("Navigating to route with userId:", this.userId);
+    }
+  }
+
+};
 </script>
+
+
 
 <style scoped>
 

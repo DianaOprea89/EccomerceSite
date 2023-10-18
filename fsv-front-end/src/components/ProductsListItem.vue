@@ -1,24 +1,50 @@
 <template>
   <div class="product-container">
-    <img class="product-image" :src="product.imageUrl">
+    <img class="product-image" :src="product.product.imageUrl">
     <div class="details-wrap">
-      <h3>{{ product.name }}</h3>
-      <p>$ {{ product.price }}</p>
+      <h3>{{ product.product.name }}</h3>
+      <p>$ {{ product.product.price }}</p>
     </div>
-    <div class="actions-wrap" :value="product.count" readonly>
-     <span>Qty</span> <input type="number">
-      <button class="remove-button remove-text" v-on:click="$emit('remove-from-cart', product.id)">Remove from cart</button>
+    <div class="actions-wrap">
+      <span>Qty</span>
+      <input type="number" v-model="quantity" @input="updateQuantity" />
+      <button class="remove-button remove-text" @click="removeFromCart(product.product.id)">
+        Remove from cart
+      </button>
     </div>
   </div>
 </template>
 
-
 <script>
 export default {
   name: "ProductsListItem",
-  props: ['product']
-}
+  props: {
+    product: {
+      type: Object,
+      required: true
+    },
+    productQuantities: Number,
+  },
+  data() {
+    return {
+      quantity: this.productQuantities || 1,
+    };
+  },
+  methods: {
+    removeFromCart(productId) {
+      this.$emit("remove-from-cart", productId);
+    },
+    updateQuantity() {
+      // Emit an event to update the cart item quantity
+      this.$emit("update-cart-item-quantity", {
+        id: this.product.product.id,
+        quantity: this.quantity,
+      });
+    },
+  },
+};
 </script>
+
 
 <style scoped>
 .product-container {
@@ -60,6 +86,7 @@ export default {
   text-align: center;
   border: 1px solid #ccc;
 }
+
 .actions-wrap .remove-button {
   background-color: #e15069;
   flex-grow: 1;

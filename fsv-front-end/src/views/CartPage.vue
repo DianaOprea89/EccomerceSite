@@ -1,22 +1,26 @@
 <template>
   <div id="page-wrap">
     <h1>Shopping Cart</h1>
-    <ProductsList
-        :products="cartItems"
-        @remove-from-cart="removeFromCart"
-    ></ProductsList>
+    <div v-if="cartItems.length > 0">
+      <ProductsList
+          :products="cartItems"
+          :product-quantities="productQuantities"
+          @remove-from-cart="removeFromCart"
+      ></ProductsList>
+    </div>
+    <p v-else>You haven't added anything to your cart yet</p>
 
     <div>
-      <h3 id="total-price" v-if="cartItems.length>0">Total: ${{ cartTotal }}</h3>
+      <h3 id="total-price" v-if="cartItems.length > 0">Total: ${{ cartTotal }}</h3>
       <button id="checkout-button">Proceed to Checkout</button>
     </div>
   </div>
 </template>
 
+
 <script>
 import api from "@/api/api";
 import ProductsList from "@/components/ProductsList";
-import { mapGetters } from "vuex";
 
 export default {
   name: "CartPage",
@@ -25,25 +29,33 @@ export default {
   data() {
     return {
       isLoading: false,
+      cartItems: [],
       error: null,
+      productQuantities: {}
     };
   },
   computed: {
-    ...mapGetters(["cartItems"]),
     cartTotal() {
-      return this.$store.getters.cartTotalPrice;
+      const totalPrice = this.cartItems.reduce((accumulator, cartItem) => {
+        const itemPrice = parseFloat(cartItem.product.price);
+        if (!isNaN(itemPrice)) {
+          return accumulator + itemPrice * cartItem.count;
+        }
+        return accumulator;
+      }, 0);
+
+      return totalPrice.toFixed(2);
     },
   },
-  async created() {
-    await this.fetchData();
+  async  created() {
+    this.fetchData(); // Call the fetchData method to populate cartItems
   },
   methods: {
     async removeFromCart(productId) {
       this.isLoading = true;
       try {
         await api.delete(`/api/users/${this.userId}/cart/${productId}`);
-        this.$store.commit('UPDATE_CART', this.cartItems.filter(item => item.id !== productId));
-        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        this.$router.go(0);
       } catch (error) {
         console.error('Error removing item from cart:', error);
         this.error = 'Failed to remove item from the cart.';
@@ -51,68 +63,28 @@ export default {
         this.isLoading = false;
       }
     },
-    async fetchUserData() {
-      try {
-        await this.$store.dispatch('loadUserData');
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    },
-    async fetchProductData() {
-      try {
-        await this.$store.dispatch('loadProducts');
-      } catch (error) {
-        console.error('Error fetching product data:', error);
-      }
-    },
-    async getProductDetails(productId) {
-      try {
-        const productDetails = this.$store.state.products.find(product => product.id === productId);
 
-        if (!productDetails) {
-          return { name: 'Product Not Found', price: 0, imageUrl: '' };
-        }
-
-        return productDetails;
-      } catch (error) {
-        console.error('Error fetching product details:', error);
-        throw error;
-      }
-    },
     async fetchData() {
       this.isLoading = true;
       try {
-        await this.fetchUserData();
-        await this.fetchProductData();
-
-        const userId = this.userId;
-
+        const userId = this.$route.params.userId; // Access userId from route parameters
         const response = await api.get(`/api/users/${userId}/cart`);
 
-        if (response.data && Array.isArray(response.data)) {
-          const productCounts = {};
-          response.data.forEach((product) => {
-            const productId = product.id;
-            productCounts[productId] = (productCounts[productId] || 0) + 1;
+        if (response.status === 200) {
+          // Log the product objects before assigning to cartItems
+          console.log('Product objects:', response.data);
+
+          // If the request is successful, update the cartItems data
+          this.cartItems = response.data;
+
+          // Populate productQuantities with quantities of each product
+          this.cartItems.forEach((cartItem) => {
+            this.$set(this.productQuantities, cartItem.product.id, cartItem.count);
           });
-
-          const productsWithDetails = await Promise.all(
-              Object.entries(productCounts).map(async ([productId, count]) => {
-                const details = await this.getProductDetails(productId);
-                return {
-                  id: productId,
-                  count,
-                  price: details.price,
-                  name: details.name,
-                  imgUrl: details.imageUrl
-                };
-              })
-          );
-
-          this.$store.dispatch('updateCart', productsWithDetails);
         } else {
           console.warn("No cart data found.");
-          this.$store.dispatch('updateCart', []);
+          // Handle the case where no cart data is found
+          this.cartItems = [];
         }
       } catch (error) {
         console.error('Error fetching cart items:', error);
@@ -124,6 +96,9 @@ export default {
   },
 };
 </script>
+
+
+
 
 <style scoped>
 h1 {

@@ -132,7 +132,6 @@ app.post('/api/userData', async (req, res) => {
 
 
 app.post('/api/cart/add', async (req, res) => {
-
     const { email, password, productId } = req.body;
 
     const user = await db.collection('users').findOne({ email });
@@ -153,15 +152,21 @@ app.post('/api/cart/add', async (req, res) => {
 
     console.log("Product added to cart successfully");
 
-    if (!user.cartItems.includes(productId)) {
+    // Check if the product already exists in the cart
+    const cartItemIndex = user.cartItems.findIndex(item => item.productId === productId);
 
-        user.cartItems.push(productId);
-
-
-        await db.collection('users').updateOne({ id: user.id }, {
-            $set: { cartItems: user.cartItems },
-        });
+    if (cartItemIndex === -1) {
+        // If the product doesn't exist in the cart, add it as a new object
+        user.cartItems.push({ productId, count: 1 });
+    } else {
+        // If the product already exists, increment its count
+        user.cartItems[cartItemIndex].count++;
     }
+
+    // Update the user's cartItems
+    await db.collection('users').updateOne({ id: user.id }, {
+        $set: { cartItems: user.cartItems },
+    });
 
     const updatedUser = await db.collection('users').findOne({ id: user.id });
 
@@ -174,7 +179,6 @@ app.post('/api/cart/add', async (req, res) => {
 
 
 app.get('/api/users/:userId/cart', async(req, res) => {
-
     try {
         const userId = req.params.userId;
         const user = await db.collection('users').findOne({ id: userId });
@@ -186,11 +190,16 @@ app.get('/api/users/:userId/cart', async(req, res) => {
         const userCartItems = user.cartItems;
         const productsInCart = [];
 
-        for (const productId of userCartItems) {
+        for (const cartItem of userCartItems) {
+            const productId = cartItem.productId;
             const product = await db.collection('products').findOne({ id: productId });
 
             if (product) {
-                productsInCart.push(product);
+                // Add the product with its count to productsInCart
+                productsInCart.push({
+                    product,
+                    count: cartItem.count
+                });
             }
         }
 
@@ -205,8 +214,10 @@ app.get('/api/users/:userId/cart', async(req, res) => {
 
 
 
-app.get('/api/products/:productId', async (req, res) => {
+
+app.get('/api/products/:productId/:userId', async (req, res) => {
     const { productId } = req.params;
+    const userId = req.params.userId;
     const product = await db.collection('products').findOne({ id: productId });
     if (product) {
         res.status(200).json(product);
@@ -229,6 +240,7 @@ app.delete('/api/users/:userId/cart/:productId',  async (req, res) => {
     }
 
     await db.collection('users').updateOne({ id: userId }, {
+      //  console.log("cartItems:productId")
         $pull: { cartItems: productId },
     });
 

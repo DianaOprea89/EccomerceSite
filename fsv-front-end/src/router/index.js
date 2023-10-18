@@ -25,12 +25,13 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/products/:productId',
+    path:  '/products/:productId/:userId', // Add userId parameter
     name: 'ProductDetail',
     component: ProductDetailPage,
     props: true,
     meta: { requiresAuth: true }
   },
+
   {
     path: '/',
     redirect: '/products',
