@@ -25,7 +25,7 @@ import ProductsList from "@/components/ProductsList";
 export default {
   name: "CartPage",
   components: { ProductsList },
-  props: ["userId"],
+  props: ["userId", 'product'],
   data() {
     return {
       isLoading: false,
@@ -47,23 +47,29 @@ export default {
       return totalPrice.toFixed(2);
     },
   },
-  async  created() {
+  created() {
     this.fetchData(); // Call the fetchData method to populate cartItems
-  },
-  methods: {
-    async removeFromCart(productId) {
-      this.isLoading = true;
-      try {
-        await api.delete(`/api/users/${this.userId}/cart/${productId}`);
-        this.$router.go(0);
-      } catch (error) {
-        console.error('Error removing item from cart:', error);
-        this.error = 'Failed to remove item from the cart.';
-      } finally {
-        this.isLoading = false;
-      }
-    },
 
+    // Add a console.log to check the productQuantities object
+    console.log('Product Quantities:', this.productQuantities);
+  },
+
+    methods: {
+      async removeFromCart(productId) {
+        console.log("Removing from cart in CartPage:", productId);
+        this.isLoading = true;
+        try {
+          await api.delete(`/api/users/${this.userId}/cart/${productId}`);
+
+
+          await this.fetchData();
+        } catch (error) {
+          console.error('Error removing item from cart:', error);
+          this.error = 'Failed to remove item from the cart.';
+        } finally {
+          this.isLoading = false;
+        }
+      },
     async fetchData() {
       this.isLoading = true;
       try {
@@ -79,13 +85,14 @@ export default {
 
           // Populate productQuantities with quantities of each product
           this.cartItems.forEach((cartItem) => {
-            this.$set(this.productQuantities, cartItem.product.id, cartItem.count);
+            this.productQuantities[cartItem.product.id] = cartItem.count;
           });
         } else {
           console.warn("No cart data found.");
           // Handle the case where no cart data is found
           this.cartItems = [];
         }
+        console.log('Updated productQuantities:', this.productQuantities);
       } catch (error) {
         console.error('Error fetching cart items:', error);
         this.error = 'Failed to fetch cart items.';
@@ -94,7 +101,7 @@ export default {
       }
     },
   },
-};
+}
 </script>
 
 

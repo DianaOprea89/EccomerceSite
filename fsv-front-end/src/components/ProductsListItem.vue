@@ -7,8 +7,8 @@
     </div>
     <div class="actions-wrap">
       <span>Qty</span>
-      <input type="number" v-model="quantity" @input="updateQuantity" />
-      <button class="remove-button remove-text" @click="removeFromCart(product.product.id)">
+      <p class="counting">{{ product.count }}</p>
+      <button class="remove-button remove-text" @click="handleRemoveFromCart(product.product.id)">
         Remove from cart
       </button>
     </div>
@@ -23,27 +23,16 @@ export default {
       type: Object,
       required: true
     },
-    productQuantities: Number,
-  },
-  data() {
-    return {
-      quantity: this.productQuantities || 1,
-    };
   },
   methods: {
-    removeFromCart(productId) {
+    handleRemoveFromCart(productId) {
+      console.log("Removing from cart with productId:", productId);
       this.$emit("remove-from-cart", productId);
-    },
-    updateQuantity() {
-      // Emit an event to update the cart item quantity
-      this.$emit("update-cart-item-quantity", {
-        id: this.product.product.id,
-        quantity: this.quantity,
-      });
     },
   },
 };
 </script>
+
 
 
 <style scoped>
@@ -76,16 +65,18 @@ export default {
   align-items: center;
   gap: 10px;
 }
+.actions-wrap .counting{
+  width: 35px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  border: 2px black solid;
+}
 
 .details-wrap h3, .details-wrap p {
   margin: 0;
 }
 
-.actions-wrap input[type="number"] {
-  width: 35px;
-  text-align: center;
-  border: 1px solid #ccc;
-}
 
 .actions-wrap .remove-button {
   background-color: #e15069;

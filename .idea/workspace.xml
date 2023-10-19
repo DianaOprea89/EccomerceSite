@@ -8,17 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-back-end/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/src/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/cartUtils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGrid.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGrid.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductDetailPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +115,7 @@
       <workItem from="1696231929141" duration="26919000" />
       <workItem from="1696832440786" duration="44829000" />
       <workItem from="1697444866173" duration="8247000" />
-      <workItem from="1697528257438" duration="22754000" />
+      <workItem from="1697528257438" duration="34605000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -237,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697113050452</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="changes">
+      <created>1697642078304</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1697642078304</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

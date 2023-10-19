@@ -230,23 +230,38 @@ app.get('/api/products/:productId/:userId', async (req, res) => {
 
 
 
-app.delete('/api/users/:userId/cart/:productId',  async (req, res) => {
+app.delete('/api/users/:userId/cart/:productId', async (req, res) => {
     const { userId, productId } = req.params;
+
+    console.log(`Removing product with id ${productId} from cart of user with id ${userId}`);
 
     const user = await db.collection('users').findOne({ id: userId });
 
     if (!user) {
+        console.log('User not found.');
         return res.status(404).json('Could not find user!');
     }
 
-    await db.collection('users').updateOne({ id: userId }, {
-      //  console.log("cartItems:productId")
-        $pull: { cartItems: productId },
+    const updatedCartItems = user.cartItems.map((cartItem) => {
+        if (cartItem.id === productId) {
+            console.log(`Decrementing count of product ${productId} in cart.`);
+            return { ...cartItem, count: cartItem.count - 1 };
+        }
+        return cartItem;
     });
 
-    const products = await db.collection('products').find({ id: { $in: user.cartItems }}).toArray();
+    console.log('Updated cart items:', updatedCartItems);
+
+    await db.collection('users').updateOne({ id: userId }, {
+        $set: { cartItems: updatedCartItems },
+    });
+
+    console.log('Cart updated in the database.');
+
+    const products = await db.collection('products').find({ id: { $in: user.cartItems } }).toArray();
     res.status(200).json(products);
 });
+
 
 
 
