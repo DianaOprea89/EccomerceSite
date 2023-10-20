@@ -6,6 +6,7 @@
         :product="product"
         :product-quantity="productQuantities[product.id] || 1"
         @remove-from-cart="handleRemoveFromCart"
+        @add-to-cart="handleAddtoCart"
 
     ></ProductsListItem>
   </div>
@@ -24,10 +25,13 @@ export default {
     quantity: Number,
   },
   methods: {
-
     handleRemoveFromCart(productId) {
       console.log("Removing from cart in ProductsList:", productId);
       this.$emit("remove-from-cart", productId);
+    },
+    handleAddtoCart(productId) {
+      console.log("Adding to cart in ProductList ", productId);
+      this.$emit("add-to-cart", productId);
     },
   },
   created() {

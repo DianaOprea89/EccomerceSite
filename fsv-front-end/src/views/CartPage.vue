@@ -6,6 +6,7 @@
           :products="cartItems"
           :product-quantities="productQuantities"
           @remove-from-cart="removeFromCart"
+          @add-to-cart="addtoCart"
       ></ProductsList>
     </div>
     <p v-else>You haven't added anything to your cart yet</p>
@@ -49,48 +50,66 @@ export default {
   },
   created() {
     this.fetchData();
-
     console.log('Product Quantities:', this.productQuantities);
   },
 
-    methods: {
-      async removeFromCart(productId) {
-        console.log("Removing from cart in CartPage:", productId);
-        this.isLoading = true;
-        try {
-          await api.delete(`/api/users/${this.userId}/cart/${productId}`);
-          await this.fetchData();
-        } catch (error) {
-          console.error('Error removing item from cart:', error);
-          this.error = 'Failed to remove item from the cart.';
-        } finally {
-          this.isLoading = false;
-        }
+  methods: {
+    async removeFromCart(productId) {
+      console.log("Removing from cart in CartPage:", productId);
+      this.isLoading = true;
+      try {
+        await api.delete(`/api/users/${this.userId}/cart/${productId}`);
+        await this.fetchData();
+      } catch (error) {
+        console.error('Error removing item from cart:', error);
+        this.error = 'Failed to remove item from the cart.';
+      } finally {
+        this.isLoading = false;
       }
-      ,
-      async fetchData() {
-        this.isLoading = true;
-        try {
-          const userId = this.$route.params.userId;
-          const response = await api.get(`/api/users/${userId}/cart`);
+    },
+    async addtoCart(productId) {
+      const email = this.userEmail || localStorage.getItem('userEmail');
+      const password = this.userPassword || localStorage.getItem('userPassword');
+      console.log("Adding to cart in CartPage:", productId);
 
-          if (response.status === 200) {
-            this.cartItems = response.data;
-            this.cartItems.forEach((cartItem) => {
-              this.productQuantities[cartItem.productId] = cartItem.count;
-            });
-          } else {
-            console.warn("No cart data found.");
-            this.cartItems = [];
-          }
-        } catch (error) {
-          console.error('Error fetching cart items:', error);
-          this.error = 'Failed to fetch cart items.';
-        } finally {
-          this.isLoading = false;
-        }
+      this.isLoading = true;
+      try {
+        await api.post('/api/cart/add', {
+          email: email,
+          password: password,
+          productId: productId, // Use productId directly
+        });
+        await this.fetchData();
+      } catch (error) {
+        console.error('Error adding item to cart:', error);
+        this.error = 'Failed to add item to the cart.';
+      } finally {
+        this.isLoading = false;
       }
-,
+    },
+
+    async fetchData() {
+      this.isLoading = true;
+      try {
+        const userId = this.$route.params.userId;
+        const response = await api.get(`/api/users/${userId}/cart`);
+
+        if (response.status === 200) {
+          this.cartItems = response.data;
+          this.cartItems.forEach((cartItem) => {
+            this.productQuantities[cartItem.productId] = cartItem.count;
+          });
+        } else {
+          console.warn("No cart data found.");
+          this.cartItems = [];
+        }
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+        this.error = 'Failed to fetch cart items.';
+      } finally {
+        this.isLoading = false;
+      }
+    },
   },
 }
 </script>

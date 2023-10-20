@@ -56,7 +56,8 @@ MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopolog
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../assets')))
+app.use('/assets', express.static(path.join(__dirname, '../assets')));
+
 
 app.use((req, res, next) => {
     console.log(`Request received: ${req.method} ${req.url}`);

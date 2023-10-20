@@ -1,7 +1,7 @@
 <template>
   <div id="page-wrap">
     <div id="img-wrap">
-      <img v-if="localProduct" :src="localProduct.imageUrl">
+      <img v-if="localProduct" :src="getImageUrl(localProduct.imageUrl)">
     </div>
     <div id="product-details">
       <h1>{{ localProduct ? localProduct.name : 'Loading...' }}</h1>
@@ -59,6 +59,9 @@ export default {
     },
   },
   methods: {
+    getImageUrl(imagePath) {
+      return `/assets${imagePath}`;
+    },
     async addToCart(localProduct) {
       if (!this.isAuthenticated) {
         console.error("User is not authenticated. Please log in.");

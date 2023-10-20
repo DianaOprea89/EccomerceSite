@@ -1,6 +1,6 @@
 <template>
   <div class="product-item">
-    <img :src="product.imageUrl">
+    <img :src="getImageUrl(product.imageUrl)">
     <h3 class="product-name">{{ product.name }}</h3>
     <p class="product-price">$ {{ product.price }}</p>
     <router-link :to="'/products/' + product.id + '/' + userId" @click="logRoute">
@@ -20,7 +20,12 @@ export default {
   methods: {
     logRoute() {
       console.log("Navigating to route with userId:", this.userId);
+      console.log(this.product)
+    },
+    getImageUrl(imagePath) {
+      return `/assets${imagePath}`;
     }
+
   }
 
 };

@@ -26,8 +26,7 @@ export default {
     try {
       const result = await api.get('/api/products');
       this.localUserId = this.getUserId;
-      console.log("Result:", result);
-      console.log('UserId in ProductsPage:', this.localUserId);
+
       const products = result.data;
       this.products = products;
     } catch (error) {
