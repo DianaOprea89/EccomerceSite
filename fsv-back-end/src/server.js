@@ -26,7 +26,7 @@ MongoClient.connect(connectionString, { useNewUrlParser: true, useUnifiedTopolog
         db = client.db('vue-db');
         console.log('Connected to MongoDB');
 
-        // Run the migration script here
+
         const usersCollection = db.collection('users');
 
         async function runMigration() {
@@ -149,21 +149,17 @@ app.post('/api/cart/add', async (req, res) => {
     if (!product) {
         return res.status(404).json('Could not find product!');
     }
-
     console.log("Product added to cart successfully");
 
-    // Check if the product already exists in the cart
     const cartItemIndex = user.cartItems.findIndex(item => item.productId === productId);
 
     if (cartItemIndex === -1) {
-        // If the product doesn't exist in the cart, add it as a new object
         user.cartItems.push({ productId, count: 1 });
     } else {
-        // If the product already exists, increment its count
         user.cartItems[cartItemIndex].count++;
     }
 
-    // Update the user's cartItems
+
     await db.collection('users').updateOne({ id: user.id }, {
         $set: { cartItems: user.cartItems },
     });
@@ -193,16 +189,13 @@ app.get('/api/users/:userId/cart', async(req, res) => {
         for (const cartItem of userCartItems) {
             const productId = cartItem.productId;
             const product = await db.collection('products').findOne({ id: productId });
-
             if (product) {
-                // Add the product with its count to productsInCart
                 productsInCart.push({
                     product,
                     count: cartItem.count
                 });
             }
         }
-
         res.status(200).json(productsInCart);
     } catch (error) {
         console.error('Error fetching cart items:', error);
@@ -232,37 +225,33 @@ app.get('/api/products/:productId/:userId', async (req, res) => {
 
 app.delete('/api/users/:userId/cart/:productId', async (req, res) => {
     const { userId, productId } = req.params;
-
     console.log(`Removing product with id ${productId} from cart of user with id ${userId}`);
 
     const user = await db.collection('users').findOne({ id: userId });
 
     if (!user) {
-        console.log('User not found.');
         return res.status(404).json('Could not find user!');
     }
 
+
     const updatedCartItems = user.cartItems.map((cartItem) => {
-        if (cartItem.id === productId) {
-            console.log(`Decrementing count of product ${productId} in cart.`);
-            return { ...cartItem, count: cartItem.count - 1 };
+        if (cartItem.productId === productId) {
+            const updatedCount = cartItem.count - 1;
+            return updatedCount > 0 ? { ...cartItem, count: updatedCount } : null;
+            console.log(`Removing product with id ${productId} from cart of user with id ${userId}`);
         }
         return cartItem;
-    });
+    }).filter((cartItem) => cartItem !== null); // Remove null entries
 
-    console.log('Updated cart items:', updatedCartItems);
+    console.log(updatedCartItems);
 
     await db.collection('users').updateOne({ id: userId }, {
         $set: { cartItems: updatedCartItems },
     });
 
-    console.log('Cart updated in the database.');
 
-    const products = await db.collection('products').find({ id: { $in: user.cartItems } }).toArray();
-    res.status(200).json(products);
+    res.status(204).end();
 });
-
-
 
 
 
@@ -273,7 +262,6 @@ app.post('/api/register', async (req, res) => {
         if (!name || !email || !password || !passwordConfirm) {
             return res.status(400).json({ message: 'Please fill all fields' });
         }
-
         if (password !== passwordConfirm) {
             return res.status(400).json({ message: 'Passwords do not match' });
         }
@@ -283,9 +271,7 @@ app.post('/api/register', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already registered' });
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const newUser = {
             id,
             name,

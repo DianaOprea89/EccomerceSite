@@ -3,8 +3,6 @@
     <img :src="product.imageUrl">
     <h3 class="product-name">{{ product.name }}</h3>
     <p class="product-price">$ {{ product.price }}</p>
-    <!-- Concatenate productId and userId to the route path -->
-    <!-- Inside ProductsGridItem.vue template -->
     <router-link :to="'/products/' + product.id + '/' + userId" @click="logRoute">
       <button>View Details</button>
     </router-link>

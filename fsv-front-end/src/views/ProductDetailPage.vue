@@ -33,7 +33,7 @@ import api from '@/api/api';
 
 export default {
   name: "ProductDetailPage",
-  props: ['productId', 'userId'], // Accept userId as a prop
+  props: ['productId', 'userId'],
   data() {
     return {
       localProduct: {

@@ -8,6 +8,8 @@
     <div class="actions-wrap">
       <span>Qty</span>
       <p class="counting">{{ product.count }}</p>
+      <p>+</p>
+      <p>-</p>
       <button class="remove-button remove-text" @click="handleRemoveFromCart(product.product.id)">
         Remove from cart
       </button>
@@ -26,7 +28,7 @@ export default {
   },
   methods: {
     handleRemoveFromCart(productId) {
-      console.log("Removing from cart with productId:", productId);
+      console.log("Removing from cart in ProductListItem with productId:", productId);
       this.$emit("remove-from-cart", productId);
     },
   },

@@ -64,7 +64,7 @@ export default {
           this.$store.commit("setUser", data.user);
 
           localStorage.setItem('userEmail', this.email);
-          localStorage.setItem('userPassword', this.password);  // PLEASE NOTE: This is not safe.
+          localStorage.setItem('userPassword', this.password);
 
           this.$router.push("/products/");
         } else {

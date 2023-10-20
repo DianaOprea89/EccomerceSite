@@ -24,9 +24,9 @@ export default {
     quantity: Number,
   },
   methods: {
-    // Handle the "remove-from-cart" event
+
     handleRemoveFromCart(productId) {
-      // Emit an event to request removal of the product
+      console.log("Removing from cart in ProductsList:", productId);
       this.$emit("remove-from-cart", productId);
     },
   },
@@ -35,7 +35,7 @@ export default {
   },
   watch: {
     products: function (newProducts, oldProducts) {
-      // Log when the products prop changes
+
       console.log("Products prop changed:", newProducts, oldProducts);
     },
   },

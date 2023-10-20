@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       products: [],
-      localUserId: null, // Create a local data property for userId
+      localUserId: null,
     };
   },
   computed: {
@@ -25,7 +25,7 @@ export default {
   async created() {
     try {
       const result = await api.get('/api/products');
-      this.localUserId = this.getUserId; // Assign the userId to the local data property
+      this.localUserId = this.getUserId;
       console.log("Result:", result);
       console.log('UserId in ProductsPage:', this.localUserId);
       const products = result.data;

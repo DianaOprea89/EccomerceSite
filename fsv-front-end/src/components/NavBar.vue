@@ -48,10 +48,8 @@ export default {
       this.$store.commit('clearUserData');
       this.$store.commit('clearCartData');
 
-
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userPassword');
-
 
       this.$router.push('/login').then(() => this.$router.go());
     }

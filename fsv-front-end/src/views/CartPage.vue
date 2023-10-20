@@ -48,9 +48,8 @@ export default {
     },
   },
   created() {
-    this.fetchData(); // Call the fetchData method to populate cartItems
+    this.fetchData();
 
-    // Add a console.log to check the productQuantities object
     console.log('Product Quantities:', this.productQuantities);
   },
 
@@ -60,8 +59,6 @@ export default {
         this.isLoading = true;
         try {
           await api.delete(`/api/users/${this.userId}/cart/${productId}`);
-
-
           await this.fetchData();
         } catch (error) {
           console.error('Error removing item from cart:', error);
@@ -69,37 +66,31 @@ export default {
         } finally {
           this.isLoading = false;
         }
-      },
-    async fetchData() {
-      this.isLoading = true;
-      try {
-        const userId = this.$route.params.userId; // Access userId from route parameters
-        const response = await api.get(`/api/users/${userId}/cart`);
-
-        if (response.status === 200) {
-          // Log the product objects before assigning to cartItems
-          console.log('Product objects:', response.data);
-
-          // If the request is successful, update the cartItems data
-          this.cartItems = response.data;
-
-          // Populate productQuantities with quantities of each product
-          this.cartItems.forEach((cartItem) => {
-            this.productQuantities[cartItem.product.id] = cartItem.count;
-          });
-        } else {
-          console.warn("No cart data found.");
-          // Handle the case where no cart data is found
-          this.cartItems = [];
-        }
-        console.log('Updated productQuantities:', this.productQuantities);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-        this.error = 'Failed to fetch cart items.';
-      } finally {
-        this.isLoading = false;
       }
-    },
+      ,
+      async fetchData() {
+        this.isLoading = true;
+        try {
+          const userId = this.$route.params.userId;
+          const response = await api.get(`/api/users/${userId}/cart`);
+
+          if (response.status === 200) {
+            this.cartItems = response.data;
+            this.cartItems.forEach((cartItem) => {
+              this.productQuantities[cartItem.productId] = cartItem.count;
+            });
+          } else {
+            console.warn("No cart data found.");
+            this.cartItems = [];
+          }
+        } catch (error) {
+          console.error('Error fetching cart items:', error);
+          this.error = 'Failed to fetch cart items.';
+        } finally {
+          this.isLoading = false;
+        }
+      }
+,
   },
 }
 </script>
