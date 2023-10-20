@@ -1,11 +1,14 @@
 # EccomerceSite
-This is an eCommerce site I did from scratch after seeing 2 video trainings separately, one from Udemy, The Complete Nodejs MySQL Login System, and one from YouTube Creating and Hosting a Full-Stack E-Commerce Site | Vue JS, NodeJS, MongoDB, Postman, Express server
-So on this eCommerce site,   I have used VueJS, NodeJS with Express and MongoDB, and on this site you can register a new user, on the register component. After that you can login based on the user and password that you used when you registered. The information is saved in the database created using MongoDB,  and the products in the cart are added based on the userID that is logged in and the productID of the product selected, if the product is already added to the cart the button with add to cart will become disabled. The message "Item is already in the cart!" will appear, this check is done against the database created in MongoDB:
+This is an eCommerce site I created from scratch after completing two separate video trainings: one from Udemy, "The Complete Nodejs MySQL Login System," and another from YouTube titled "Creating and Hosting a Full-Stack E-Commerce Site | Vue JS, NodeJS, MongoDB, Postman, Express server."
 
- In order to start this project you need to open 3 terminals, and keep them open, 
- 
-     -one for the frontend - on the fsv-front-end folder, with the command npm start, 
-     
-     -one for the backend, on the fsv-back-end folder also with npm start,
-     
-     -and also on this folder fsv-back-end but different terminal we need to start our database with the  command mongod, also make sure to connect in mongoDB Compass so that you can use your database 
+So, on this eCommerce site, I have used VueJS, NodeJS with Express, and MongoDB. On this site, you can register as a new user using the registration component. Afterward, you can log in using the user and password you provided during registration. The information is saved in the database created using MongoDB. The products in the cart are added based on the userID of the logged-in user and the productID of the selected product. If the product is already in the cart, the button will display an additional message, "Successfully added to the cart."
+
+Clicking the Cart button will display the CartPage Component, which contains all the products the connected user has in their cartItems. You can also remove items from the cart and adjust the quantity of products by clicking the up and down arrows. You can add or remove as many products as you want. However, if you remove the last item (count=0), the product will be completely removed from the cart.
+
+To start this project, you need to run a npm install in order to install all dependencies and after that you need  to open three terminals:
+
+- One for the frontend in the "fsv-front-end" folder, using the command "npm start."
+- One for the backend in the "fsv-back-end" folder, also using "npm start."
+- Another terminal in the "fsv-back-end" folder is needed to start our database with the command "mongod." Make sure to connect to MongoDB Compass so that you can access your database.
+
+

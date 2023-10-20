@@ -6,27 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6b5bde07-c91d-4557-a4c0-f8a37ea2a141" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/node_modules/.cache/@babel/register/.babel.7.22.9.development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-back-end/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-back-end/src/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/icons8-shopping-cart-26.png" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/icons8-shopping-cart-26.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/png-transparent-avatar-icon-cartoon-user-avatar-cartoon-character-child-painted-thumbnail.png" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/png-transparent-avatar-icon-cartoon-user-avatar-cartoon-character-child-painted-thumbnail.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-10.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-11.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-12.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/assets/shoes-9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/public/assets/images/shoes-9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsGridItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/components/ProductsListItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/CartPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/fsv-front-end/src/views/ProductsPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +114,7 @@
       <workItem from="1696832440786" duration="44829000" />
       <workItem from="1697444866173" duration="8247000" />
       <workItem from="1697528257438" duration="42713000" />
-      <workItem from="1697789819836" duration="6737000" />
+      <workItem from="1697789819836" duration="7535000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1691065947011</created>
@@ -269,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697788954098</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="changes">
+      <created>1697798706571</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697798706571</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
